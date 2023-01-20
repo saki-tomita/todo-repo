@@ -1,0 +1,12 @@
+version: '3' # composeファイルのバージョン
+services:
+  web: # サービス名
+    build: # ビルドに使うDockerファイルのパス
+      context: ./
+      dockerfile: ./build/Dockerfile
+    container_name: todo-web
+    ports:
+      - "8080:8080"
+    volumes: # マウントディレクトリ
+      - ./server:/app:cached
+    tty: true
