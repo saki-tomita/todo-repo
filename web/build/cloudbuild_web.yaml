@@ -1,7 +1,7 @@
 steps:
   # Docker Build
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "${_IMAGE_NAME}", "."]
+    args: ["build", "-t", "${_IMAGE_NAME}", "./ToDoApplicationEnv/web/build/"]
   # Docker push to Artifact Registry
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "${_IMAGE_NAME}"]
