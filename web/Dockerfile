@@ -1,5 +1,5 @@
 FROM node:18.1.0-alpine
-COPY . /root
+COPY ./server /root
 WORKDIR /root
 
 RUN apk update && \
