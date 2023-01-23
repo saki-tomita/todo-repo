@@ -1,6 +1,6 @@
 FROM node:18.1.0-alpine
-COPY ./app /app
-WORKDIR /app
+COPY . /root
+WORKDIR /root
 
 RUN apk update && \
     npm install -g npm && \
