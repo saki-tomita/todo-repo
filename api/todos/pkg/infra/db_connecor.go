@@ -101,7 +101,7 @@ func ConnectWithConnector() (*sql.DB, error) {
 			dbRootCert, dbCert, dbKey)
 	}
 
-	dbPool, err = sql.Open("pgx", dbURI)
+	dbPool, err := sql.Open("pgx", dbURI)
 	err = dbPool.Ping()
 	if err != nil {
 		return nil, fmt.Errorf("sql.Open: %v", err)
