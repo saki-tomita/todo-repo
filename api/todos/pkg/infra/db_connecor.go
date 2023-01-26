@@ -3,11 +3,20 @@
 package infra
 
 import (
+	"cloud.google.com/go/cloudsqlconn"
+	"context"
 	"database/sql"
 	"fmt"
+	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/stdlib"
 	"log"
+	"net"
 	"os"
 
+	_ "cloud.google.com/go/cloudsqlconn"
+	_ "cloud.google.com/go/cloudsqlconn/postgres/pgxv4"
+	_ "github.com/jackc/pgx/v4"
+	_ "github.com/jackc/pgx/v4/stdlib"
 	_ "github.com/jackc/pgx/v5"
 )
 
@@ -27,7 +36,7 @@ func ConnectWithConnector() (*sql.DB, error) {
 	// secure - consider a more secure solution such as
 	// Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
 	// keep secrets safe.
-	/**** CloudRun環境用？ ****
+
 	var (
 		// Either a DB_USER or a DB_IAM_USER should be defined. If both are
 		// defined, DB_IAM_USER takes precedence.
@@ -39,24 +48,8 @@ func ConnectWithConnector() (*sql.DB, error) {
 		usePrivate             = os.Getenv("PRIVATE_IP")
 	)
 	if dbUser == "" && dbIAMUser == "" {
-			log.Fatal("Warning: One of DB_USER or DB_IAM_USER must be defined")
-		}
-	*/
-
-	var (
-		dbUser = mustGetenv("DB_USER") // e.g. 'my-db-user'
-		dbPwd  = mustGetenv("DB_PASS") // e.g. 'my-db-password'
-		//dbTCPHost = mustGetenv("INSTANCE_HOST") // e.g. '127.0.0.1' ('172.17.0.1' if deployed to GAE Flex)
-		//dbTCPHost = "127.0.0.1"
-		instanceConnectionName = "/cloudsql/ca-saki-tomita-test:asia-northeast1:postgres-todo-instance"
-		//dbPort = mustGetenv("DB_PORT") // e.g. '5432'
-		dbName = mustGetenv("DB_NAME") // e.g. 'my-database'
-	)
-
-	if dbUser == "" {
-		log.Fatal("Warning: One of DB_USER must be defined")
+		log.Fatal("Warning: One of DB_USER or DB_IAM_USER must be defined")
 	}
-	/**** CloudRun環境用？ ****
 	dsn := fmt.Sprintf("user=%s password=%s database=%s", dbUser, dbPwd, dbName)
 	config, err := pgx.ParseConfig(dsn)
 	if err != nil {
@@ -83,39 +76,13 @@ func ConnectWithConnector() (*sql.DB, error) {
 	if err != nil {
 		return nil, fmt.Errorf("sql.Open: %v", err)
 	}
-	return dbPool, nil
-
-	*/
-	dbURI := fmt.Sprintf("host=%s user=%s password=%s database=%s",
-		instanceConnectionName, dbUser, dbPwd, dbName)
-	//dbURI := "postgres: //postgres:oremeka9@127.0.0.1:5432/tododev?sslmode=disable"
-	fmt.Println("dbURI:")
-	fmt.Println(dbURI)
-
-	if dbRootCert, ok := os.LookupEnv("DB_ROOT_CERT"); ok { // e.g., '/path/to/my/server-ca.pem'
-		var (
-			dbCert = mustGetenv("DB_CERT") // e.g. '/path/to/my/client-cert.pem'
-			dbKey  = mustGetenv("DB_KEY")  // e.g. '/path/to/my/client-key.pem'
-		)
-		dbURI += fmt.Sprintf(" sslmode=require sslrootcert=%s sslcert=%s sslkey=%s",
-			dbRootCert, dbCert, dbKey)
-	}
-
-	dbPool, err := sql.Open("pgx", dbURI)
-	err = dbPool.Ping()
-	if err != nil {
-		return nil, fmt.Errorf("sql.Open: %v", err)
-	}
-
-	fmt.Println("dbPool:")
-	fmt.Println(dbPool)
 
 	//クエリ試し（あとでAPIにうつす）
 	var (
 		email string
 	)
 	//ここからおかしい
-	err = dbPool.QueryRow("SELECT email FROM users WHERE id = $1", 1).Scan(&email)
+	err = dbPool.QueryRow("SELECT email FROM t_user WHERE id = $1", 1).Scan(&email)
 	if err != nil {
 		return nil, fmt.Errorf("sql.Open: %v", err)
 	}
