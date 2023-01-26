@@ -9,8 +9,13 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+<<<<<<< HEAD
 	"github.com/jackc/pgx/v4/stdlib"
 	"github.com/joho/godotenv"
+=======
+	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/stdlib"
+>>>>>>> f28fa19a (ローカル疎通できるようになったver.)
 	"log"
 	"net"
 	"os"
