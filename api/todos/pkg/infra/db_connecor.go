@@ -47,8 +47,8 @@ func ConnectWithConnector() (*sql.DB, error) {
 		dbUser = mustGetenv("DB_USER") // e.g. 'my-db-user'
 		dbPwd  = mustGetenv("DB_PASS") // e.g. 'my-db-password'
 		//dbTCPHost = mustGetenv("INSTANCE_HOST") // e.g. '127.0.0.1' ('172.17.0.1' if deployed to GAE Flex)
-		dbTCPHost = "127.0.0.1"
-		//instanceConnectionName = "/cloudsql/ca-saki-tomita-test:asia-northeast1:postgres-todo-instance"
+		//dbTCPHost = "127.0.0.1"
+		instanceConnectionName = "/cloudsql/ca-saki-tomita-test:asia-northeast1:postgres-todo-instance"
 		//dbPort = mustGetenv("DB_PORT") // e.g. '5432'
 		dbName = mustGetenv("DB_NAME") // e.g. 'my-database'
 	)
@@ -87,7 +87,7 @@ func ConnectWithConnector() (*sql.DB, error) {
 
 	*/
 	dbURI := fmt.Sprintf("host=%s user=%s password=%s database=%s",
-		dbTCPHost, dbUser, dbPwd, dbName)
+		instanceConnectionName, dbUser, dbPwd, dbName)
 	//dbURI := "postgres: //postgres:oremeka9@127.0.0.1:5432/tododev?sslmode=disable"
 	fmt.Println("dbURI:")
 	fmt.Println(dbURI)
