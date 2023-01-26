@@ -9,5 +9,8 @@ WORKDIR /go/todos
 RUN go mod download
 COPY build .
 
+RUN apk --no-cache add curl
+
 EXPOSE 8081
+
 CMD ["go", "run", "main.go"]
