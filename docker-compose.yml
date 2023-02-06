@@ -1,0 +1,32 @@
+version: '3' # composeファイルのバージョン
+services:
+  api: # サービス名
+    build: # ビルドに使うDockerファイルのパス
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: todo-api
+    volumes: # マウントディレクトリ
+      - ./api/todos:/go/todos
+      - ../ca-saki-tomita-test-todoSqlClientKey.json:/go/ca-saki-tomita-test-todoSqlClientKey.json
+    tty: true # コンテナの永続化
+    ports:
+      - "0.0.0.0:8081:8081"
+    env_file: # .envファイル
+      - ./api/build/.go_env
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /go/ca-saki-tomita-test-todoSqlClientKey.json
+
+  vue:
+    build:
+      context: ./vue
+      dockerfile: Dockerfile
+    container_name: todo-vue
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    volumes:
+      - ./vue/app:/app
+    working_dir: /app
+    tty: true
+    stdin_open: true

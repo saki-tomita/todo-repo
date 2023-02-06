@@ -1,2 +1,0 @@
-// ハンドラ
-package http

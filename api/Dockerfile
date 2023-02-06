@@ -7,7 +7,7 @@ COPY ./todos/go.mod /go/todos
 WORKDIR /go/todos
 
 RUN go mod download
-COPY build .
+COPY ./build .
 
 RUN apk --no-cache add curl
 

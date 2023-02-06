@@ -7,23 +7,11 @@ services:
     container_name: todo-api
     volumes: # マウントディレクトリ
       - ./todos:/go/todos
+      - ../../ca-saki-tomita-test-todoSqlClientKey.json:/go/ca-saki-tomita-test-todoSqlClientKey.json
     tty: true # コンテナの永続化
     ports:
-      - "127.0.0.1:8081:80"
+      - "0.0.0.0:8081:8081"
     env_file: # .envファイル
       - ./build/.go_env
     environment:
-      DB_PORT: "5432"
-      DB_NAME: "tododev"
-      DB_USER: "postgres"
-      DB_PASS: "oremeka9"
-
-
-  sql_proxy:
-    image: gcr.io/cloudsql-docker/gce-proxy:latest
-    volumes:
-      - ./todos:/config
-    ports:
-      - "5432:5432"
-    restart: always
-    command: /cloud_sql_proxy -instances=ca-saki-tomita-test:asia-northeast1:postgres-todo-instance=tcp:0.0.0.0:5432 -credential_file=/config/ca-saki-tomita-test-202f5276222a.json
+      GOOGLE_APPLICATION_CREDENTIALS: /go/ca-saki-tomita-test-todoSqlClientKey.json
