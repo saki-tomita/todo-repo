@@ -8,3 +8,5 @@ RUN apk update && \
         npm install axios
 
 EXPOSE 8080
+
+CMD ["npm", "run", "serve"]
