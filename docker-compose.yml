@@ -19,7 +19,7 @@ services:
   vue:
     build:
       context: ./vue
-      dockerfile: Dockerfile
+      dockerfile: ../ohikkosi/vue/Dockerfile
     container_name: todo-vue
     ports:
       - "8080:8080"
