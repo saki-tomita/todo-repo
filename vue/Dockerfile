@@ -7,7 +7,5 @@ RUN apk update && \
         npm install -g @vue/cli && \
         npm install axios
 
-ENV HOST 0.0.0.0
 EXPOSE 8080
-
 CMD ["npm", "start"]
