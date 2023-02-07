@@ -1,6 +1,5 @@
 FROM node:18.1-alpine
 
-COPY ./app/dist ./dist
 WORKDIR /app
 
 RUN apk update && \
