@@ -9,7 +9,7 @@
 
 FROM nginx:1.15.12-alpine as vue-run
 WORKDIR /vue/app
-COPY --from=vue-local /app/dist /usr/share/nginx/html
-COPY --from=vue-local /app/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY /app/dist/ /usr/share/nginx/html/
+COPY /app/nginx/ /etc/nginx/conf.d/
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
