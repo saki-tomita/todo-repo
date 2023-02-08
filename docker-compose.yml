@@ -20,6 +20,7 @@ services:
     build:
       context: ./vue
       dockerfile: Dockerfile
+    command: yarn run serve
     container_name: todo-vue
     ports:
       - "8080:8080"
