@@ -6,6 +6,7 @@ RUN apk update && \
         npm install axios
 
 FROM nginx:1.15.12-alpine as vue-run
+WORKDIR /app
 COPY --from=vue-local /app/dist /usr/share/nginx/html
 COPY --from=vue-local /app/nginx/default.conf /etc/nginx/conf.d/default.conf
 EXPOSE 8080
