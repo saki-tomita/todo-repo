@@ -14,7 +14,7 @@ RUN apk update && \
 
 FROM nginx:1.15.12-alpine as vue-run
 WORKDIR /vue/app
-ADD --from=vue-local /dist/ /usr/share/nginx/html/
-ADD --from=vue-local /nginx/ /etc/nginx/conf.d/
+COPY --from=vue-local /dist/ /usr/share/nginx/html/
+COPY --from=vue-local /nginx/ /etc/nginx/conf.d/
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
