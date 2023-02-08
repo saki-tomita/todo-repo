@@ -1,7 +1,7 @@
 FROM node:18.1-alpine as vue-local
 WORKDIR /vue/app
-COPY package.json ./
-COPY yarn.lock ./
+COPY ./app/package.json ./
+COPY ./app/yarn.lock ./
 RUN apk update && \
         npm install -g npm && \
         npm install -g @vue/cli && \
