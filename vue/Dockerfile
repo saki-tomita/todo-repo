@@ -6,8 +6,9 @@ RUN apk update && \
     npm install -g npm && \
     npm install -g @vue/cli && \
     npm install axios && \
-    #yarn add COPY . . && \
-    npm run build
+    yarn install && \
+    yarn run build
+    #npm run build
 
 FROM nginx:1.15.12-alpine as vue-run
 WORKDIR /vue/app
