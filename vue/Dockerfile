@@ -3,8 +3,7 @@ WORKDIR /app
 RUN apk update && \
         npm install -g npm && \
         npm install -g @vue/cli && \
-        npm install axios && \
-        npm run build
+        npm install axios
 
 FROM nginx:1.15.12-alpine as vue-run
 COPY --from=vue-local /app/dist /usr/share/nginx/html
