@@ -3,12 +3,11 @@ WORKDIR /vue/app
 COPY ./app/package.json ./
 COPY ./app/yarn.lock ./
 RUN apk update && \
-        npm install -g npm && \
-        npm install -g @vue/cli && \
-        npm install axios && \
-       yarn install \
-COPY . .
-RUN yarn build
+    npm install -g npm && \
+    npm install -g @vue/cli && \
+    npm install axios && \
+    yarn add COPY . . && \
+    yarn build
 
 FROM nginx:1.15.12-alpine as vue-run
 WORKDIR /vue/app
