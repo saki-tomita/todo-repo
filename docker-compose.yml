@@ -30,3 +30,5 @@ services:
     working_dir: /app
     tty: true
     stdin_open: true
+    depends_on:
+      - api

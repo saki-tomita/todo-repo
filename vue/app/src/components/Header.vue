@@ -1,13 +1,22 @@
 <template>
+  <v-row>
+
   <div class="header">
-    <div class="title">
-      <h1>{{title}}</h1>
-    </div>
-    <div class="h_box">
-      <v-btn to="../App" class="links">Todo</v-btn>
-      <v-btn to="xxx" class="links">ログアウト</v-btn>
-    </div>
+
+    <v-col cols="10">
+      <div class="title">
+        <h1>{{title}}</h1>
+      </div>
+    </v-col>
+
+    <v-col cals="2">
+      <div class="h_box">
+        <v-btn @click="logout" class="links">ログアウト</v-btn>
+      </div>
+    </v-col>
+
   </div>
+  </v-row>
 </template>
 
 <script>
@@ -15,6 +24,11 @@ export default {
   name: "header-todo",
   props: {
     title: String
+  },
+  methods: {
+    logout(){
+      this.$emit('log-out');
+    }
   }
 }
 </script>

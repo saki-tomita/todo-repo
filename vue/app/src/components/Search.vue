@@ -27,6 +27,7 @@ import axios from 'axios'
 
 export default {
   name: 'search-task',
+  props: {usemail: String},
   data(){
     return {
       searchInput: null,
