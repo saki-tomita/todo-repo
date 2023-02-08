@@ -7,6 +7,7 @@ RUN apk update && \
     npm install -g @vue/cli && \
     npm install axios && \
     yarn install && \
+    yarn upgrade && \
     yarn run build
     #npm run build
 
