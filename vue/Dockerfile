@@ -7,8 +7,9 @@ RUN apk update && \
     npm install -g npm && \
     #npm install -g @vue/cli && \
     #npm install axios && \
-    #yarn install && \
-    yarn install --prod --frozen-lockfile && \
+    yarn add -g @vue/cli && \
+    yarn install && \
+    #yarn install --prod --frozen-lockfile && \
     #yarn upgrade && \
     yarn run build
     #npm run build
