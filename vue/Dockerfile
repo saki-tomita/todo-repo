@@ -1,5 +1,5 @@
 FROM node:18.1-alpine as vue-local
-WORKDIR /vue
+WORKDIR /vue/app
 COPY ./app/package.json ./
 #COPY ./app/package-lock.json ./
 COPY ./app/yarn.lock ./
