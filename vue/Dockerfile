@@ -4,7 +4,7 @@ COPY ./app/package.json ./
 #COPY ./app/package-lock.json ./
 COPY ./app/yarn.lock ./
 RUN apk update && \
-    #npm install -g npm && \
+    npm install -g npm && \
     #npm install -g @vue/cli && \
     #npm install axios && \
     #yarn install && \
