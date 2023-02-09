@@ -1,33 +1,29 @@
 <template>
   <v-app>
     <v-main>
-       <div class="route_box">
+      <div class="route_box">
         <router-view/>
-       </div>
+      </div>
       <Header
-          v-if="usemail"
           title="ToDoApp"
           v-on:log-out="logout"
       />
-      <div>{{usemail}}</div>
+      <div>{{u_email}}</div>
       <Search
-          v-if="usemail"
           @get-search-res="getRes"
       />
-<!--      <template v-slot:activator="{ on }">-->
-        <v-btn
-            v-if="usemail"
-            icon color="indigo" v-bind="attrs" v-on="on" @click="add()">
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-<!--      </template>-->
+      <!--      <template v-slot:activator="{ on }">-->
+      <v-btn
+          icon color="indigo" v-bind="attrs" v-on="on" @click="add()">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+      <!--      </template>-->
       <v-dialog
           v-model="dialog"
           persistent
           max-width="600px"
       >
         <AddTask
-            v-if="usemail"
             v-on:close-dialog="dialog=false"
             :task="task"
         ></AddTask>
@@ -38,13 +34,11 @@
           max-width="400px"
       >
         <DelTask
-            v-if="usemail"
             v-on:close-dialog="deldialog=false"
             :task="task"
         ></DelTask>
       </v-dialog>
       <MainTable
-          v-if="usemail"
           v-on:open-edit-dialog="edit"
           v-on:open-delete-dialog="del"
           :taskRes="tasks"
@@ -59,20 +53,15 @@ import AddTask from "@/components/dialog/AddTask.vue";
 import DelTask from "@/components/dialog/DelTask.vue"
 import Search from "@/components/Search.vue";
 import MainTable from "@/components/MainTable.vue";
-
 import "firebase/auth";
 //import {auth} from "@/main";
 require('firebase/auth')
 import {onAuthStateChanged, getAuth, signOut} from "firebase/auth";
 import {initializeApp} from "firebase/app";
-
-
 //import { getAuth, onAuthStateChanged } from "firebase/auth";
-
 export default {
   name: 'App',
-  props: {usemail: String},
-
+  props: {u_email: String},
   components: {
     Header,
     AddTask,
@@ -80,7 +69,6 @@ export default {
     Search,
     MainTable,
   },
-
   data() {
     return{
       tasks: [],
@@ -88,16 +76,15 @@ export default {
       dialog: false,
       deldialog: false,
       task: {
-          Name: "",
-          Label: "",
-          Deadline: "",
-          Rank: 1,
-          Memo: ""
-        },
+        Name: "",
+        Label: "",
+        Deadline: "",
+        Rank: 1,
+        Memo: ""
+      },
       email: ""
     }
   },
-
   methods: {
     getRes(value) {
       console.log("value:")
@@ -130,8 +117,6 @@ export default {
       signOut(this.auth)
     }
   },
-
-
   setup(){
     const firebaseConfig =  {
       apiKey: "AIzaSyA0pqtZ0MS4IIG7pTG4sBszchCJLuH4jKU",
@@ -141,19 +126,15 @@ export default {
       messagingSenderId: "630134509832",
       appId: "1:630134509832:web:c7fe8919a892f81619dcbd"
     };
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("User is signed in")
         console.log(user);
-        this.email = this.usemail;
+        this.email = user.email;
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-
-
       } else {
         // User is signed out
         console.log("User is signed out");
@@ -167,5 +148,4 @@ export default {
 .route_box{
   padding: 10px 100px;
 }
-
 </style>

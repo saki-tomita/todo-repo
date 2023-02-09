@@ -52,6 +52,7 @@ export default {
         //console.log(result.user)
         const user = result.user
         data.email_address = user.email
+        console.log(user.email)
 
         router.push({name: 'logapp', params:{usemail: user.email}})
       }).catch((error) => {

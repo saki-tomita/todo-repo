@@ -2,23 +2,15 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
-//import "./assets/main.css";
+loadFonts()
 import 'firebase/auth'
 import router from './router'
-
-loadFonts()
 
 createApp(App)
     .use(router)
     .use(vuetify)
     .mount('#app')
 
-//const port = Number(process.env.PORT) || 8080;
-//await app.listen(port, '0.0.0.0');
-
-
-//firebase
-//import firebase from 'firebase'
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth"
 
@@ -33,9 +25,3 @@ const firebaseConfig =  {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-//import { getAuth, onAuthStateChanged } from "firebase/auth";
-
-
-
-
-//firebaseAuth = getAuth();
