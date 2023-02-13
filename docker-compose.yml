@@ -1,4 +1,4 @@
-version: '3' # composeファイルのバージョン
+version: '3.5' # composeファイルのバージョン
 services:
   api: # サービス名
     build: # ビルドに使うDockerファイルのパス
@@ -16,20 +16,19 @@ services:
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /go/ca-saki-tomita-test-todoSqlClientKey.json
 
-  vue:
+  web:
     build:
-      context: ./vue
+      context: ./web
       dockerfile: Dockerfile
-    command: yarn run serve
-    container_name: todo-vue
+      target: vue-local
+    command: yarn serve
+    container_name: todo-web
     ports:
       - "8080:8080"
     expose:
       - "8080"
     volumes:
-      - ./vue/app:/app
-    working_dir: /app
+      - ./web/app:/app
     tty: true
-    stdin_open: true
     depends_on:
       - api
