@@ -1,23 +1,18 @@
 <template>
   <v-app>
-    <v-main>
-      <HelloWorld/>
+    <v-main class="main">
+      <div class="route_box">
+        <router-view/>
+      </div>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-
-  components: {
-    HelloWorld,
-  },
-
-  data: () => ({
-    //
-  }),
-}
 </script>
+
+<style>
+.main{
+  padding: 8% 10%;
+}
+</style>

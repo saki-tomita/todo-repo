@@ -4,9 +4,8 @@ COPY ./app/package.json ./
 COPY ./app/yarn.lock ./
 RUN apk update && \
     npm install -g npm && \
-    #npm install -g yarn
-    yarn install && \
-    yarn build
+    yarn install --frozen-lockfile && \
+    yarn add @vue/cli
 
 FROM nginx:1.15.12-alpine as vue-run
 COPY --from=vue-local /app/dist/ /usr/share/nginx/html/
