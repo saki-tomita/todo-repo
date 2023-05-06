@@ -1,0 +1,281 @@
+swagger: "2.0"
+
+info:
+  version: 1.0.0
+  title: ToDo
+  description: |
+    - アプリケーション構築課題のAPI仕様書
+
+schemes:
+  - http
+# ホスト
+host: localhost:8080
+# 基底パス
+basePath: /swagger-sample/api/
+# エンドポイント
+paths:
+  /task:
+    get:
+      summary: タスクを全件取得する
+      produces:
+        - application/json
+      parameters:
+        - name: email
+          in: query
+          description: ユーザーのeメールアドレス
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                ID:
+                  type: string
+                  description: タスクID
+                Name:
+                  type: string
+                  description: タスク名
+                Status:
+                  type: string
+                  description: ステータス(1:未着手,2:着手,3:完了)
+                Rank:
+                  type: string
+                  description: 優先順位(1:低,2:中,3:大)
+                Deadline:
+                  type: string
+                  description: 締切（YYYY-MM-DD）
+                Label:
+                  type: string
+                  description: ラベルID(1:仕事,2:勉強,3:遊び)
+                Memo:
+                  type: string
+                  description: メモ
+                UserID:
+                  type: string
+                  description: ユーザーID
+                DelFlg:
+                  type: string
+                  description: 削除フラグ(0:未削除,1:削除)
+            example:
+              [
+                {
+                  ID: "1",
+                  Name: "task1",
+                  Status: "2",
+                  Rank: "1",
+                  Deadline: "2023-05-05",
+                  Label: "3",
+                  Memo: "18時締切",
+                  UserID: "1",
+                  DelFlg: "0"
+                },
+              ]
+        400:
+          description: BadRequest
+        500:
+          description: Internal Server Error
+    post:
+      summary: タスクの新規作成
+      tags:
+        - Task
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: task
+          schema:
+            type: object
+            properties:
+              Name:
+                type: string
+                description: タスク名
+              Status:
+                type: integer
+                description: ステータスID
+              Rank:
+                type: integer
+                description: ランクID
+              Deadline:
+                type: string
+                description: 締切日(YYYY-MM-DD)
+              Label:
+                type: integer
+                description: ラベルID
+              Memo:
+                type: string
+                description: メモ
+              UserID:
+                type: integer
+                description: ユーザーID
+              DelFlg:
+                type: integer
+                description: 削除フラグ(0:未削除,1:削除済み)
+            example:
+              [
+                {
+                  Name: "task1",
+                  Status: 1,
+                  Rank: 1,
+                  Deadline: "2023-05-05",
+                  Label: 2,
+                  Memo: "メモ",
+                  UserID: 1,
+                  DelFlg: 0,
+                },
+              ]
+      responses:
+        200:
+          description: OK
+        400:
+          description: BadRequest
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+  /task/id:
+    get:
+      summary: 指定条件でタスク取得する
+      parameters:
+        - name: name
+          in: query
+          type: string
+          description: タスク名
+        - name: status
+          in: query
+          type: string
+          description: ステータス
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                ID:
+                  type: string
+                  description: タスクID
+                Name:
+                  type: string
+                  description: タスク名
+                Status:
+                  type: string
+                  description: ステータス(1:未着手,2:着手,3:完了)
+                Rank:
+                  type: string
+                  description: 優先順位(1:低,2:中,3:大)
+                Deadline:
+                  type: string
+                  description: 締切（YYYY-MM-DD）
+                Label:
+                  type: string
+                  description: ラベルID(1:仕事,2:勉強,3:遊び)
+                Memo:
+                  type: string
+                  description: メモ
+                UserID:
+                  type: string
+                  description: ユーザーID
+                DelFlg:
+                  type: string
+                  description: 削除フラグ(0:未削除,1:削除済み)
+            example:
+              [
+                {
+                  ID: "1",
+                  Name: "task1",
+                  Status: "2",
+                  Rank: "1",
+                  Deadline: "2023-05-05",
+                  Label: "3",
+                  Memo: "18時締切",
+                  UserID: "1",
+                  DelFlg: "0"
+                },
+              ]
+        400:
+          description: BadRequest
+        500:
+          description: Internal Server Error
+  /task/{task_id}:
+    put:
+      summary: タスクの更新
+      tags:
+        - Task
+      produces:
+        - application/json
+      parameters:
+        - name: "task_id"
+          in: "path"
+          description: "タスクID"
+          required: true
+          type: "integer"
+        - in: body
+          name: task
+          schema:
+            type: object
+            properties:
+              Name:
+                type: string
+                description: タスク名
+              Status:
+                type: integer
+                description: ステータスID
+              Rank:
+                type: integer
+                description: ランクID
+              Deadline:
+                type: string
+                description: 締切日(YYYY-MM-DD)
+              Label:
+                type: integer
+                description: ラベルID
+              Memo:
+                type: string
+                description: メモ
+              UserID:
+                type: integer
+                description: ユーザーID
+              DelFlg:
+                type: integer
+                description: 削除フラグ(0:未削除,1:削除済み)
+            example:
+              [
+                {
+                  Name: "task1",
+                  Status: 1,
+                  Rank: 1,
+                  Deadline: "2023-05-05",
+                  Label: 2,
+                  Memo: "メモ",
+                  UserID: 1,
+                  DelFlg: 0,
+                },
+              ]
+      responses:
+        200:
+          description: OK
+        400:
+          description: BadRequest
+        500:
+          description: Internal Server Error
+  /del/task/{task_id}:
+    put:
+      summary: タスクの削除
+      parameters:
+        - name: "task_id"
+          in: "path"
+          description: "タスクID"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: OK
+        400:
+          description: BadRequest
+        500:
+          description: Internal Server Error

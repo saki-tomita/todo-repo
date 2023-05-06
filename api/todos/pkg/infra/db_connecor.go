@@ -9,13 +9,9 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-<<<<<<< HEAD
-	"github.com/jackc/pgx/v4/stdlib"
-	"github.com/joho/godotenv"
-=======
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/stdlib"
->>>>>>> f28fa19a (ローカル疎通できるようになったver.)
+	"github.com/joho/godotenv"
 	"log"
 	"net"
 	"os"
@@ -31,13 +27,13 @@ import (
 )
 
 type DBConnector struct {
-	dbPool *sql.DB
+	DbPool *sql.DB
 }
 
 func (conn *DBConnector) Get(q string) ([]*domain.Task, error) {
-	query := "select t_task.* from t_task inner join t_user on t_task.user_id = t_user.id where " + q
+	query := "select t_task.* from t_task inner join t_user on t_task.user_id = t_user.id where t_task.del_flg = 0 and " + q + " order by id"
 	log.Println(query)
-	stmt, err := conn.dbPool.Prepare(query)
+	stmt, err := conn.DbPool.Prepare(query)
 	if err != nil {
 		return nil, err
 	}
@@ -64,8 +60,8 @@ func (conn *DBConnector) Get(q string) ([]*domain.Task, error) {
 }
 
 func (conn *DBConnector) GetAll(email string) ([]*domain.Task, error) {
-	query := "select t_task.* from t_task inner join t_user on t_task.user_id = t_user.id where t_task.del_flg = 0 and t_user.email = $1"
-	stmt, err := conn.dbPool.Prepare(query)
+	query := "select t_task.* from t_task inner join t_user on t_task.user_id = t_user.id where t_task.del_flg = 0 and t_user.email = $1 order by id"
+	stmt, err := conn.DbPool.Prepare(query)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +90,7 @@ func (conn *DBConnector) Create(task *domain.Task) (int, error) {
 	log.Println("db_connector Create")
 	query := "insert into t_task (name, status, rank, deadline, label, memo, user_id, del_flg, created_at, created_user, updated_at, updated_user) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)"
 	log.Println(query)
-	stmt, err := conn.dbPool.Prepare(query)
+	stmt, err := conn.DbPool.Prepare(query)
 	if err != nil {
 		return task.ID, err
 	}
@@ -113,7 +109,7 @@ func (conn *DBConnector) Update(task *domain.Task) error {
 	log.Println("db_connector Update")
 	query := "update t_task set name = $1, status = $2, rank = $3, deadline = $4, label = $5, memo = $6, user_id = $7, del_flg = $8, updated_at = $9, updated_user = $10 where id = $11"
 	log.Println(query)
-	stmt, err := conn.dbPool.Prepare(query)
+	stmt, err := conn.DbPool.Prepare(query)
 	if err != nil {
 		return err
 	}
@@ -126,7 +122,7 @@ func (conn *DBConnector) Update(task *domain.Task) error {
 
 func (conn *DBConnector) Delete(id int) error {
 	query := "update t_task set del_flg = 1 where id = $1;"
-	stmt, err := conn.dbPool.Prepare(query)
+	stmt, err := conn.DbPool.Prepare(query)
 	if err != nil {
 		return err
 	}
@@ -192,6 +188,6 @@ func NewDbConnector() *DBConnector {
 	//DBConnector := new(DBConnector)
 	//DBConnector.dbPool = dbPool
 	return &DBConnector{
-		dbPool: dbPool,
+		DbPool: dbPool,
 	}
 }

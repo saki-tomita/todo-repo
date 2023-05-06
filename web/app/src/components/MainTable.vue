@@ -28,19 +28,15 @@ export default {
     return {
 
       headers: [
-        { title: 'NO', align: 'center', key: 'no' },
+        { title: 'NO', align: 'center', key: 'ID' },
         { title: "タスク名", key: "Name", align: "center" },
-        { title: "ラベル", key: "Label", align: "center" },
+        { title: "ラベル", key: "Label_v", align: "center" },
         { title: "終了期限", key: "Deadline", align: "center" },
-        { title: "ステータス", key: "Status", align: "center" },
-        { title: "優先度", key: "Rank", align: "center" },
+        { title: "ステータス", key: "Status_v", align: "center" },
+        { title: "優先度", key: "Rank_v", align: "center" },
         { title: "操作", key: "actions" }
       ],
-      //  items: this.taskRes
-      items: [
-        {no:"1", Name:"Toeic勉強", Label:"勉強", Deadline:"2023-01-01", Status:"着手中", Rank:"★"},
-        {no:"2", Name:"Toeic勉強", Label:"勉強", Deadline:"2023-01-01", Status:"着手中", Rank:"★"}
-      ]
+       items: this.taskRes
     }
 
 },

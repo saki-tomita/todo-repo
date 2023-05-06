@@ -69,24 +69,6 @@ export default {
     }
   }
 
-
-//   mounted: {
-//     onAuthStateChanged(auth, (user) => { // <4>
-//   if (user) {
-//     el.sectionSignin.style.display = 'none'
-//     el.sectionUser.style.display = 'block'
-//     el.sectionSignout.style.display = 'block'
-//     el.uid.innerHTML = user.uid
-//   } else {
-//     el.sectionSignin.style.display = 'block'
-//     el.sectionUser.style.display = 'none'
-//     el.sectionSignout.style.display = 'none'
-//   }
-// })
-// }
-}
-
-
 </script>
 
 <style>

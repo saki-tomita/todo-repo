@@ -1,17 +1,37 @@
-// main.goから呼びだされ、各層の橋渡しを担当
-package http
+package adapter
 
 import (
+	_ "github.com/gorilla/context"
 	"github.com/gorilla/mux"
-	infra "todos/pkg/infra"
+	"github.com/urfave/negroni"
+	"log"
+	"net/http"
+	"todos/pkg/infra"
+	"todos/pkg/usecase/task"
 )
 
-func initRouter() {
-	// DB(CloudSQLに接続)
-	dbPool, _ := infra.connectWithConnector()
+func InitRouter() {
+	taskConn := infra.NewDbConnector()
+	defer taskConn.DbPool.Close()
+	taskInteractor := task.NewInteractor(taskConn)
 
-	//SQL試し（後々インフラ層にうつす）
+	router := mux.NewRouter()
 
-	r := mux.NewRouter()
-	r.HandleFunc("/getTask", infra.getAllTaskList)
+	n := negroni.New(
+		//negroni.HandlerFunc(Cors),
+		negroni.NewLogger(),
+	)
+
+	TaskHandlers(router, *n, taskInteractor)
+	http.Handle("/", router)
+	log.Println("Lintening server '0.0.0.0:8081'")
+
+	server := http.Server{
+		Addr: "0.0.0.0:8081",
+		//Handler:      handler,
+	}
+	if err := server.ListenAndServe(); err != nil {
+		panic(err)
+	}
+
 }

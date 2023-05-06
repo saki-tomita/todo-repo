@@ -11,8 +11,6 @@ COPY ./build .
 
 RUN apk --no-cache add curl
 
-RUN apk --no-cache add curl
-
 EXPOSE 8081
 
 CMD ["go", "run", "main.go"]

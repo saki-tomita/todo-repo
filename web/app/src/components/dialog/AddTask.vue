@@ -7,6 +7,15 @@
         <v-container>
           <v-row>
             <v-col
+                cols="12"
+            >
+              <v-radio-group inline v-model="SetVal.Status">
+                <v-radio label="未着手" value="1"/>
+                <v-radio label="着手中" value="2"/>
+                <v-radio label="完了" value="3"/>
+              </v-radio-group>
+            </v-col>
+            <v-col
                 cols="6"
             >
               <v-text-field
@@ -21,14 +30,9 @@
               <v-select
                   label="ラベル*"
                   :items="labels"
-                  v-model="SetVal.Label"
+                  v-model="s_label"
                   return-object>
               </v-select>
-<!--              <v-text-field-->
-<!--                  label="ラベル*"-->
-<!--                  required-->
-<!--                  v-model="SetVal.label"-->
-<!--              ></v-text-field>-->
             </v-col>
           </v-row>
           <v-row>
@@ -42,7 +46,7 @@
               <v-select
                   label="優先度*"
                   :items="ranks"
-                  v-model="SetVal.Rank"
+                  v-model="s_rank"
                   return-object>
               </v-select>
 <!--              <v-text-field-->
@@ -97,20 +101,15 @@ export default {
   data() {
     return {
       dialog: false,
-      label: { title: '勉強', key: '1' },
+      label: { title: '仕事', key: '1' },
       labels: [
-        { title: '勉強', key: '1' },
-        { title: '仕事', key: '2' },
+        { title: '仕事', key: '1' },
+        { title: '勉強', key: '2' },
         { title: '遊び', key: '3' }
       ],
-      // SetVal: {
-      //   name: "",
-      //   label: "",
-      //   deadline: "",
-      //   rank: 1,
-      //   memo.js: ""
-      // }
       SetVal: this.task,
+      s_label: this.task.ID == 0 ? '' : { title:this.task.Label_v, key:this.task.Label },
+      s_rank: this.task.ID == 0 ? '' : { title:this.task.Rank_v, key:this.task.Rank },
       ranks: [
         { title: '★', key: '1' },
         { title: '★★', key: '2' },
@@ -131,9 +130,9 @@ export default {
               id: 0,
               name: this.SetVal.Name,
               Status : 1,
-              Rank : Number(this.SetVal.Rank.key),
+              Rank : Number(this.s_rank.key),
               Deadline : this.SetVal.Deadline,
-              Label : Number(this.SetVal.Label.key),
+              Label : Number(this.s_label.key),
               Memo : this.SetVal.Memo,
               UserID : 1,
               DelFlg : 0,
@@ -153,10 +152,10 @@ export default {
             .put('/task/'+this.SetVal.ID, {
               ID: Number(this.SetVal.ID),
               name: this.SetVal.Name,
-              Status : 1,
-              Rank : Number(this.SetVal.Rank.key),
+              Status : Number(this.SetVal.Status),
+              Rank : Number(this.s_rank.key),
               Deadline : this.SetVal.Deadline,
-              Label : Number(this.SetVal.Label.key),
+              Label : Number(this.s_label.key),
               Memo : this.SetVal.Memo,
               UserID : 1,
               DelFlg : 0,

@@ -4,9 +4,6 @@
           <v-col cols="4">
             <v-text-field v-model="searchInput" class="searchInput" solo/>
           </v-col>
-          <v-col cols="3">
-            <v-checkbox v-model="searchMemo" label="メモを含める" value=true></v-checkbox>
-          </v-col>
           <v-col cols="5">
             <v-radio-group inline v-model="searchStatus">
               <v-radio label="未着手" value="1"/>
@@ -50,20 +47,36 @@ export default {
   },
   methods:{
     search: function(){
-      var params = {'title': this.searchInput, 'status': this.searchStatus}
-      axios
-          .get('/task/1', {
-            params: {
-              name: params.title,
-              status: params.status
-            }
-          })
-          .then((res) => {
-            console.log(res)
-            this.tasks = res.data
-            console.log(this.tasks)
-            this.$emit('get-search-res', this.tasks)
-          })
+      if(this.searchStatus == '') {
+        this.searchStatus = '1'
+      }
+      let params = {'title': this.searchInput, 'status': this.searchStatus}
+      if(this.searchInput == '' || this.searchInput == null) {
+        axios
+            .get('/task', {
+              params: {
+                email: 'first_guest@test.test'
+              }
+            })
+            .then((res) => {
+              this.tasks = res.data
+              this.$emit('get-search-res', this.tasks)
+            })
+      } else {
+        axios
+            .get('/task/1', {
+              params: {
+                name: params.title,
+                status: params.status
+              }
+            })
+            .then((res) => {
+              console.log(res)
+              this.tasks = res.data
+              console.log(this.tasks)
+              this.$emit('get-search-res', this.tasks)
+            })
+      }
     },
   }
 }

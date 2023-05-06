@@ -20,7 +20,7 @@
             max-width="600px"
         >
           <AddTask
-              v-on:close-dialog="dialog=false"
+              v-on:close-dialog="closeAndRefresh"
               :task="task"
           ></AddTask>
         </v-dialog>
@@ -54,6 +54,7 @@
   import {onAuthStateChanged, getAuth, signOut} from "firebase/auth";
   import {initializeApp} from "firebase/app";
   import router from './router.js'
+  import axios from "axios";
   
   //import { getAuth, onAuthStateChanged } from "firebase/auth";
   export default {
@@ -88,8 +89,36 @@
       getRes(value) {
         console.log("value:")
         console.log(value);
+
         this.tasks.splice(0, this.tasks.length)
         this.tasks.push(...value);
+        // let vm = this
+        for(let i = 0; i < this.tasks.length; i++) {
+          if(this.tasks[i].Label == "1") {
+            this.tasks[i].Label_v = "仕事"
+          }else if(this.tasks[i].Label == "2") {
+            this.tasks[i].Label_v = "勉強"
+          }else if(this.tasks[i].Label == "3") {
+            this.tasks[i].Label_v = "遊び"
+          }
+          if(this.tasks[i].Rank == "1") {
+            this.tasks[i].Rank_v = "★"
+          }else if(this.tasks[i].Rank == "2") {
+            this.tasks[i].Rank_v = "★★"
+          }else if(this.tasks[i].Rank == "3") {
+            this.tasks[i].Rank_v = "★★★"
+          }
+          if(this.tasks[i].Status == "1") {
+            this.tasks[i].Status_v = "未着手"
+          }else if(this.tasks[i].Status == "2") {
+            this.tasks[i].Status_v = "着手中"
+          }else if(this.tasks[i].Status == "3") {
+            this.tasks[i].Status_v = "完了"
+          }
+        }
+
+        console.log("tasks:")
+        console.log(this.tasks);
       },
       add(){
         this.id = 0;
@@ -112,6 +141,19 @@
         this.task = {}
         Object.assign(this.task, item)
         this.deldialog = true;
+      },
+      closeAndRefresh() {
+        this.dialog=false
+        axios
+            .get('/task', {
+              params: {
+                email: 'first_guest@test.test'
+              }
+            })
+            .then((res) => {
+              this.tasks = res.data
+              this.getRes(this.tasks)
+            })
       },
       logout(){
         console.log('logout...')
