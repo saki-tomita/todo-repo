@@ -41,7 +41,7 @@
     - ＜現状＞ 
       - **/adapter/handler.go**→ **/usecase/interactor.go**→ **/infra/db_connector.go**
     - <理想>
-      - **/adapter/handler.go**→ （ **/interface**で/usecaseを呼び出し）→**/usecase/interactor.go**→ （ **/interface**でクエリ整形）→**/infra/db_connector.go**→（ **/interface**で返却値を生成）
+      - **/adapter/handler.go**→ （ **/interface**で/usecaseを呼び出し）→ **/usecase/interactor.go**→ （ **/interface**でクエリ整形）→ **/infra/db_connector.go** →（ **/interface**で返却値を生成）
 - Frameworks & Drivers   
 **/adapter** ... ルーティングフレームワークに依存する処理を記述  
 **/infra** ... DBに依存する処理を記述  
