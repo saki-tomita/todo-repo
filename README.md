@@ -47,7 +47,7 @@
 **/infra** ... DBに依存する処理を記述  
 
 参考：  
-https://zenn.dev/tis1116/articles/6c5416e5d77dbf
+https://zenn.dev/tis1116/articles/6c5416e5d77dbf  
 https://blog.tai2.net/the_clean_architecture.html
 
 ## インフラについて
